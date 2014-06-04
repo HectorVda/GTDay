@@ -11,6 +11,9 @@ import java.util.Date;
 
 /**
  * Especificaciones de los objetos de tipo Tarea para cada proyecto.
+ * Cada tarea consta de un nombre de tarea, una fecha límite de realización,
+ * una lista de subtareas y un campo de descripción por si necesitamos realizar
+ * cualquier anotación sobre ella.
  * @author Hector Valentin <hectorvda@gmail.com>
  */
 public class Tarea {
@@ -58,6 +61,14 @@ public class Tarea {
     public String getDescripcion() {
         return descripcion;
     }
-    
-    
+    /**
+     * Añade una tarea a la lista de subtareas.
+     * @param subtarea Objeto de tipo Tarea a añadir en la lista.
+     */
+    public void addSubtarea(Tarea subtarea){
+        if(this.subtareas == null){
+            this.subtareas=new ArrayList<>();
+        }
+        this.subtareas.add(subtarea);
+    }
 }
