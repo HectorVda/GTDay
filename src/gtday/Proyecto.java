@@ -21,13 +21,20 @@ public class Proyecto {
     private ArrayList<Tarea> haciendo;
     private ArrayList<Tarea> hecho;
 
-    public Proyecto(String nombre, ArrayList<Tarea> espera, ArrayList<Tarea> proximo, ArrayList<Tarea> haciendo, ArrayList<Tarea> hecho) {
-        this.nombre = nombre;
-        this.espera = espera;
-        this.proximo = proximo;
-        this.haciendo = haciendo;
-        this.hecho = hecho;
+    /**
+     * Constructor principal
+     * Crea un objeto Proyecto con todos sus estados vacíos.
+     * @param nombre 
+     */
+    public Proyecto(String nombre){
+        this.nombre=nombre;
+        this.espera=new ArrayList<>();
+        this.haciendo=new ArrayList<>();
+        this.hecho=new ArrayList<>();
+        this.proximo=new ArrayList<>();
+        
     }
+    
     /**
      * Crea una copia a partir de otro proyecto
      * @param p proyecto original
@@ -39,6 +46,7 @@ public class Proyecto {
         this.proximo=p.proximo;
         this.hecho=p.hecho;
     }
+    
 
     public String getNombre() {
         return nombre;

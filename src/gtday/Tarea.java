@@ -6,6 +6,7 @@
 
 package gtday;
 
+import com.toedter.calendar.JCalendar;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -17,28 +18,27 @@ import java.util.Date;
  * @author Hector Valentin <hectorvda@gmail.com>
  */
 public class Tarea {
-    private String nombre;
-    private Date fecha_Limite;
+    private String titulo;
+    private JCalendar fecha_Limite;
     private ArrayList<Tarea> subtareas;
     private String descripcion;
 
-    public Tarea(String nombre, Date fecha_Limite, ArrayList<Tarea> subtareas, String descripcion) {
-        this.nombre = nombre;
+    public Tarea(String titulo, JCalendar fecha_Limite, String descripcion) {
+        this.titulo = titulo;
         this.fecha_Limite = fecha_Limite;
-        this.subtareas = subtareas;
         this.descripcion = descripcion;
     }
 
-    public Tarea(String nombre, Date fecha_Limite) {
-        this.nombre = nombre;
+    public Tarea(String titulo, JCalendar fecha_Limite) {
+        this.titulo = titulo;
         this.fecha_Limite = fecha_Limite;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
-    public void setFecha_Limite(Date fecha_Limite) {
+    public void setFecha_Limite(JCalendar fecha_Limite) {
         this.fecha_Limite = fecha_Limite;
     }
 
@@ -46,11 +46,11 @@ public class Tarea {
         this.descripcion = descripcion;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public Date getFecha_Limite() {
+    public JCalendar getFecha_Limite() {
         return fecha_Limite;
     }
 
@@ -66,6 +66,7 @@ public class Tarea {
      * @param subtarea Objeto de tipo Tarea a añadir en la lista.
      */
     public void addSubtarea(Tarea subtarea){
+        //En caso de que no haya ninguna subtarea, se creará el Array que las contendrá
         if(this.subtareas == null){
             this.subtareas=new ArrayList<>();
         }

@@ -6,17 +6,26 @@
 
 package gtday;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Hector Valentin <hectorvda@gmail.com>
  */
 public class GTDay extends javax.swing.JFrame {
-
+    private ArrayList<Proyecto> proyectos;
+    private int index;
     /**
      * Creates new form GTDay
      */
     public GTDay() {
         initComponents();
+        inicializar();
+    }
+    
+    private void inicializar(){
+        this.proyectos=new ArrayList<>();
+        index=0;
     }
 
     /**
@@ -33,10 +42,9 @@ public class GTDay extends javax.swing.JFrame {
         jBEliminar = new javax.swing.JButton();
         jLayeredPane2 = new javax.swing.JLayeredPane();
         jPEspera = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jBMSEstado = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jPVacio = new javax.swing.JPanel();
         jPProximo = new javax.swing.JPanel();
         jPHaciendo = new javax.swing.JPanel();
         jPHecho = new javax.swing.JPanel();
@@ -44,7 +52,7 @@ public class GTDay extends javax.swing.JFrame {
         jLproyecto = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox();
+        jCBEstado = new javax.swing.JComboBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
@@ -55,8 +63,14 @@ public class GTDay extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("GTDay");
 
         jBAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gtday/añadir.png"))); // NOI18N
+        jBAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBAddActionPerformed(evt);
+            }
+        });
 
         jBEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gtday/editar.png"))); // NOI18N
         jBEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -70,7 +84,7 @@ public class GTDay extends javax.swing.JFrame {
         jLayeredPane2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jLayeredPane2.setLayout(new java.awt.CardLayout());
 
-        jButton1.setText("Mover tarea al siguiente estado");
+        jBMSEstado.setText("Mover tarea al siguiente estado");
 
         jTable1.setAutoCreateRowSorter(true);
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -135,7 +149,7 @@ public class GTDay extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPEsperaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPEsperaLayout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBMSEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(jPEsperaLayout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 656, Short.MAX_VALUE)
@@ -147,24 +161,11 @@ public class GTDay extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(jBMSEstado)
                 .addContainerGap())
         );
 
         jLayeredPane2.add(jPEspera, "card4");
-
-        javax.swing.GroupLayout jPVacioLayout = new javax.swing.GroupLayout(jPVacio);
-        jPVacio.setLayout(jPVacioLayout);
-        jPVacioLayout.setHorizontalGroup(
-            jPVacioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 684, Short.MAX_VALUE)
-        );
-        jPVacioLayout.setVerticalGroup(
-            jPVacioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 419, Short.MAX_VALUE)
-        );
-
-        jLayeredPane2.add(jPVacio, "card5");
 
         javax.swing.GroupLayout jPProximoLayout = new javax.swing.GroupLayout(jPProximo);
         jPProximo.setLayout(jPProximoLayout);
@@ -212,17 +213,22 @@ public class GTDay extends javax.swing.JFrame {
         jLabel3.setText("Estado:");
         jPanel2.add(jLabel3);
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "", "Espera", "Proximo", "Haciendo", "Hecho" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        jCBEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "", "Espera", "Proximo", "Haciendo", "Hecho" }));
+        jCBEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                jCBEstadoActionPerformed(evt);
             }
         });
-        jPanel2.add(jComboBox2);
+        jPanel2.add(jCBEstado);
 
         jMenu1.setText("Archivo");
 
         jMenuItem3.setText("Nuevo Proyecto");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem3);
 
         jMenuItem4.setText("Cambiar Proyecto");
@@ -297,9 +303,40 @@ public class GTDay extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void jCBEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBEstadoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_jCBEstadoActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        JDNuevoProyecto jdnp = new JDNuevoProyecto(this, true);
+        jdnp.setVisible(true);
+        //Si ha pulsado aceptar, añade un proyecto a la lista con el nombre indicado
+        if(jdnp.haPulsadoAceptar()){
+            this.proyectos.add(new Proyecto(jdnp.getNombre()));
+        }
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jBAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAddActionPerformed
+        JDNuevaTarea jdnt =new JDNuevaTarea(this, true);
+        jdnt.setVisible(true);
+        //Si ha pulsado aceptar se añadirá la tarea creada al estado actual
+        if(jdnt.haPulsadoAceptar()){
+            switch(jCBEstado.getSelectedIndex()){
+                case 0:
+                    this.proyectos.get(index).addEspera(jdnt.getTarea());
+                    break;
+                case 1:
+                    this.proyectos.get(index).addProximo(jdnt.getTarea());
+                    break;
+                case 2:
+                    this.proyectos.get(index).addHaciendo(jdnt.getTarea());
+                    break;
+                case 3:
+                    this.proyectos.get(index).addHecho(jdnt.getTarea());
+                    break;
+            }
+        }
+    }//GEN-LAST:event_jBAddActionPerformed
 
     /**
      * @param args the command line arguments
@@ -340,8 +377,8 @@ public class GTDay extends javax.swing.JFrame {
     private javax.swing.JButton jBAdd;
     private javax.swing.JButton jBEditar;
     private javax.swing.JButton jBEliminar;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JButton jBMSEstado;
+    private javax.swing.JComboBox jCBEstado;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLayeredPane jLayeredPane2;
     private javax.swing.JLabel jLproyecto;
@@ -357,7 +394,6 @@ public class GTDay extends javax.swing.JFrame {
     private javax.swing.JPanel jPHaciendo;
     private javax.swing.JPanel jPHecho;
     private javax.swing.JPanel jPProximo;
-    private javax.swing.JPanel jPVacio;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
