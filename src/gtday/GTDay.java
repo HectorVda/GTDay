@@ -3,18 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package gtday;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Hector Valentin <hectorvda@gmail.com>
  */
 public class GTDay extends javax.swing.JFrame {
+
     private ArrayList<Proyecto> proyectos;
     private int index;
+
     /**
      * Creates new form GTDay
      */
@@ -22,10 +32,64 @@ public class GTDay extends javax.swing.JFrame {
         initComponents();
         inicializar();
     }
-    
-    private void inicializar(){
-        this.proyectos=new ArrayList<>();
-        index=0;
+
+    private void inicializar() {
+        this.proyectos = new ArrayList<>();
+        index = 0;
+        JDIniciar jdi = new JDIniciar(this, true);
+        jdi.setVisible(true);
+        if (jdi.getOpcion() == 0) {
+            JDNuevoProyecto jdnp = new JDNuevoProyecto(this, true);
+            jdnp.disableCandelar();
+            jdnp.setVisible(true);
+            if(jdnp.haPulsadoAceptar()){
+                this.proyectos.add(new Proyecto(jdnp.getNombre()));
+            }else{
+                JOptionPane.showMessageDialog(this, "ATENCIÓN: para poder usar esta aplicación debe de crear un proyecto o cargar una cuenta", null, JOptionPane.ERROR_MESSAGE);
+            }
+
+        } else {
+            cargar();
+        }
+        if(!this.proyectos.isEmpty()){
+            jLproyecto.setText(this.proyectos.get(index).getNombre());
+        }
+        
+
+    }
+
+    private boolean cargar() {
+        int opcion;
+        boolean cargado = true;
+        JFileChooser jfc = new JFileChooser();
+        opcion = jfc.showOpenDialog(this);
+        if (opcion == JFileChooser.APPROVE_OPTION) {
+            try {
+                File archivo = jfc.getSelectedFile();
+                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(archivo));
+                this.proyectos = (ArrayList<Proyecto>) ois.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                cargado = false;
+                JOptionPane.showMessageDialog(this, "Error en la carga, archivo corrupto", null, JOptionPane.ERROR_MESSAGE);
+            }
+
+        }
+        return cargado;
+    }
+
+    private void guardar() {
+        int opcion;
+        JFileChooser jfc = new JFileChooser();
+        opcion = jfc.showSaveDialog(this);
+        if (opcion == JFileChooser.APPROVE_OPTION) {
+            try {
+                File archivo = jfc.getSelectedFile();
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(archivo));
+                oos.writeObject(this.proyectos);
+            } catch (IOException ioe) {
+                JOptionPane.showMessageDialog(this, "Error al guardar los datos", null, JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     /**
@@ -213,7 +277,7 @@ public class GTDay extends javax.swing.JFrame {
         jLabel3.setText("Estado:");
         jPanel2.add(jLabel3);
 
-        jCBEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "", "Espera", "Proximo", "Haciendo", "Hecho" }));
+        jCBEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Espera", "Proximo", "Haciendo", "Hecho" }));
         jCBEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCBEstadoActionPerformed(evt);
@@ -235,6 +299,11 @@ public class GTDay extends javax.swing.JFrame {
         jMenu1.add(jMenuItem4);
 
         jMenuItem5.setText("Salir");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem5);
 
         jMenuBar1.add(jMenu1);
@@ -311,17 +380,17 @@ public class GTDay extends javax.swing.JFrame {
         JDNuevoProyecto jdnp = new JDNuevoProyecto(this, true);
         jdnp.setVisible(true);
         //Si ha pulsado aceptar, añade un proyecto a la lista con el nombre indicado
-        if(jdnp.haPulsadoAceptar()){
+        if (jdnp.haPulsadoAceptar()) {
             this.proyectos.add(new Proyecto(jdnp.getNombre()));
         }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jBAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAddActionPerformed
-        JDNuevaTarea jdnt =new JDNuevaTarea(this, true);
+        JDNuevaTarea jdnt = new JDNuevaTarea(this, true);
         jdnt.setVisible(true);
         //Si ha pulsado aceptar se añadirá la tarea creada al estado actual
-        if(jdnt.haPulsadoAceptar()){
-            switch(jCBEstado.getSelectedIndex()){
+        if (jdnt.haPulsadoAceptar()) {
+            switch (jCBEstado.getSelectedIndex()) {
                 case 0:
                     this.proyectos.get(index).addEspera(jdnt.getTarea());
                     break;
@@ -337,6 +406,11 @@ public class GTDay extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jBAddActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        guardar();
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -368,7 +442,9 @@ public class GTDay extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GTDay().setVisible(true);
+                GTDay gtday = new GTDay();
+                gtday.setVisible(true);
+                gtday.setExtendedState(JFrame.MAXIMIZED_BOTH);
             }
         });
     }

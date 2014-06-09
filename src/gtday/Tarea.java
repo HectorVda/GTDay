@@ -7,8 +7,8 @@
 package gtday;
 
 import com.toedter.calendar.JCalendar;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Especificaciones de los objetos de tipo Tarea para cada proyecto.
@@ -17,7 +17,7 @@ import java.util.Date;
  * cualquier anotación sobre ella.
  * @author Hector Valentin <hectorvda@gmail.com>
  */
-public class Tarea {
+public class Tarea implements Serializable{
     private String titulo;
     private JCalendar fecha_Limite;
     private ArrayList<Tarea> subtareas;

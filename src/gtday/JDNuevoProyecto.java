@@ -33,6 +33,9 @@ public class JDNuevoProyecto extends javax.swing.JDialog {
         return jTFNombre.getText();
     }
 
+    public void disableCandelar(){
+        this.jBCancelar.setEnabled(false);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

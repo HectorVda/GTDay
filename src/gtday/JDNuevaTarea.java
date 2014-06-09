@@ -6,8 +6,6 @@
 
 package gtday;
 
-import com.toedter.calendar.JCalendar;
-
 /**
  *
  * @author Hector Valentin <hectorvda@gmail.com>
@@ -30,7 +28,10 @@ public class JDNuevaTarea extends javax.swing.JDialog {
     public boolean haPulsadoAceptar(){
         return this.haPulsadoAceptar;
     }
-    
+    /**
+     * Crea un objeto de tipo Tarea a partir de los datos introducidos por el usuario
+     * @return objeto Tarea
+     */
     public Tarea getTarea(){
         return new Tarea(jTFTitulo.getText(), jDCFecha.getJCalendar(), jTFDescripcion.getText());
     }

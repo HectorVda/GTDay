@@ -26,6 +26,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Salir"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem5ActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -404,12 +407,11 @@
         <Component class="javax.swing.JComboBox" name="jCBEstado">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="5">
-                <StringItem index="0" value=""/>
-                <StringItem index="1" value="Espera"/>
-                <StringItem index="2" value="Proximo"/>
-                <StringItem index="3" value="Haciendo"/>
-                <StringItem index="4" value="Hecho"/>
+              <StringArray count="4">
+                <StringItem index="0" value="Espera"/>
+                <StringItem index="1" value="Proximo"/>
+                <StringItem index="2" value="Haciendo"/>
+                <StringItem index="3" value="Hecho"/>
               </StringArray>
             </Property>
           </Properties>

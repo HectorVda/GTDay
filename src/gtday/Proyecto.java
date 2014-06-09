@@ -6,6 +6,7 @@
 
 package gtday;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -14,7 +15,7 @@ import java.util.ArrayList;
  * de tareas (una por cada estado).
  * @author Hector Valentin <hectorvda@gmail.com>
  */
-public class Proyecto {
+public class Proyecto  implements Serializable{
     private String nombre;
     private ArrayList<Tarea> espera;
     private ArrayList<Tarea> proximo;
