@@ -7,7 +7,7 @@
 package gtday;
 
 /**
- *
+ * JDialog encargado de crear un nuevo proyecto de forma adecuada
  * @author Hector Valentin <hectorvda@gmail.com>
  */
 public class JDNuevoProyecto extends javax.swing.JDialog {

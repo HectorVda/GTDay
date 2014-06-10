@@ -15,8 +15,10 @@ import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.AbstractTableModel;
 
 /**
+ * JFrame principal del proyecto
  *
  * @author Hector Valentin <hectorvda@gmail.com>
  */
@@ -24,6 +26,7 @@ public class GTDay extends javax.swing.JFrame {
 
     private ArrayList<Proyecto> proyectos;
     private int index;
+    private AbstractTableModel tableModel;
 
     /**
      * Creates new form GTDay
@@ -33,31 +36,67 @@ public class GTDay extends javax.swing.JFrame {
         inicializar();
     }
 
+    /**
+     * Se encarga de arrancar el programa iniciando correctamente los datos ya
+     * sea desde cero o desde un archivo anterior del usuario
+     */
     private void inicializar() {
-        this.proyectos = new ArrayList<>();
         index = 0;
+        boolean cargado=false;
         JDIniciar jdi = new JDIniciar(this, true);
         jdi.setVisible(true);
         if (jdi.getOpcion() == 0) {
+            this.proyectos = new ArrayList<>();
             JDNuevoProyecto jdnp = new JDNuevoProyecto(this, true);
             jdnp.disableCandelar();
             jdnp.setVisible(true);
-            if(jdnp.haPulsadoAceptar()){
+            if (jdnp.haPulsadoAceptar()) {
                 this.proyectos.add(new Proyecto(jdnp.getNombre()));
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "ATENCIÓN: para poder usar esta aplicación debe de crear un proyecto o cargar una cuenta", null, JOptionPane.ERROR_MESSAGE);
             }
 
         } else {
-            cargar();
+            cargado=cargar();
         }
-        if(!this.proyectos.isEmpty()){
+        //Una vez cargados los datos modificamos la etiqueta del nombre de Proyecto
+        if (cargado && !this.proyectos.isEmpty()) {
             jLproyecto.setText(this.proyectos.get(index).getNombre());
+            rellenarTabla();
         }
-        
 
     }
+    /**
+     * Se encarga de rellenar el modelo de la Tabla indicada
+     */
+    private void rellenarTabla(){
+        jBMSEstado.setEnabled(true);
+        switch(jCBEstado.getSelectedIndex()){
+            case 0:
+                tableModel = new TableModel(this.proyectos.get(index).getEspera());
+                break;
+            case 1:
+                tableModel = new TableModel(this.proyectos.get(index).getProximo());
+                break;
+            case 2:
+                tableModel = new TableModel(this.proyectos.get(index).getHaciendo());
+                break;
+            case 3:
+                tableModel = new TableModel(this.proyectos.get(index).getHecho());
+                jBMSEstado.setEnabled(false);
+                break;
+        }
+        jTabla.setModel(tableModel);
+        jTabla.updateUI();
+    }
 
+    /**
+     * Este método se encarga de cargar correctamente los datos a partir de un
+     * fichero origen indicado por el usuario
+     *
+     * @return true si los datos han sido correctamente guardados || false en
+     * caso de excepción
+     */
     private boolean cargar() {
         int opcion;
         boolean cargado = true;
@@ -68,6 +107,9 @@ public class GTDay extends javax.swing.JFrame {
                 File archivo = jfc.getSelectedFile();
                 ObjectInputStream ois = new ObjectInputStream(new FileInputStream(archivo));
                 this.proyectos = (ArrayList<Proyecto>) ois.readObject();
+                if (this.proyectos.size() > 1) {
+                    elegirProyecto();
+                }
             } catch (IOException | ClassNotFoundException e) {
                 cargado = false;
                 JOptionPane.showMessageDialog(this, "Error en la carga, archivo corrupto", null, JOptionPane.ERROR_MESSAGE);
@@ -77,6 +119,18 @@ public class GTDay extends javax.swing.JFrame {
         return cargado;
     }
 
+    /**
+     * Este método se encarga de gestionar qué proyecto de todos los cargados es
+     * el deseado por el usuario para trabajar en ese instante
+     */
+    private void elegirProyecto() {
+        
+    }
+
+    /**
+     * Este método se encarga del guardado de los objetos en un fichero de datos
+     * elegido por el usuario
+     */
     private void guardar() {
         int opcion;
         JFileChooser jfc = new JFileChooser();
@@ -108,7 +162,7 @@ public class GTDay extends javax.swing.JFrame {
         jPEspera = new javax.swing.JPanel();
         jBMSEstado = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTabla = new javax.swing.JTable();
         jPProximo = new javax.swing.JPanel();
         jPHaciendo = new javax.swing.JPanel();
         jPHecho = new javax.swing.JPanel();
@@ -150,8 +204,8 @@ public class GTDay extends javax.swing.JFrame {
 
         jBMSEstado.setText("Mover tarea al siguiente estado");
 
-        jTable1.setAutoCreateRowSorter(true);
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTabla.setAutoCreateRowSorter(true);
+        jTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"", "",  new Boolean(false), null},
                 {"", null, null, null},
@@ -185,7 +239,7 @@ public class GTDay extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Nombre", "Fecha límite", "Subtareas", "Descripcion"
+                "Título", "Fecha límite", "Subtareas", "Descripcion"
             }
         ) {
             Class[] types = new Class [] {
@@ -203,7 +257,7 @@ public class GTDay extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTabla);
 
         javax.swing.GroupLayout jPEsperaLayout = new javax.swing.GroupLayout(jPEspera);
         jPEspera.setLayout(jPEsperaLayout);
@@ -373,7 +427,7 @@ public class GTDay extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jCBEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBEstadoActionPerformed
-        // TODO add your handling code here:
+      rellenarTabla();
     }//GEN-LAST:event_jCBEstadoActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -405,6 +459,7 @@ public class GTDay extends javax.swing.JFrame {
                     break;
             }
         }
+        rellenarTabla();
     }//GEN-LAST:event_jBAddActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
@@ -449,6 +504,50 @@ public class GTDay extends javax.swing.JFrame {
         });
     }
 
+    class TableModel extends AbstractTableModel {
+
+        ArrayList<Tarea> datos;
+
+        public TableModel(ArrayList<Tarea> param) {
+            datos=param;
+        }
+
+        @Override
+        public int getRowCount() {
+            return datos.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return 4;
+        }
+
+        @Override
+        public Object getValueAt(int i, int i1) {
+            Object devuelto=null;
+            switch(i1){
+                case 0:
+                    devuelto=datos.get(i).getTitulo();
+                    break;
+                case 1:
+                    devuelto=datos.get(i).getFecha_Limite();
+                    break;
+                case 2:
+                    if(datos.get(i).getSubtareas()==null){
+                        devuelto=false;
+                    }else{
+                        devuelto=datos.get(i).getSubtareas().size()>0;
+                    }
+                    break;
+                case 3:
+                    devuelto=datos.get(i).getDescripcion();
+                    break;
+            }
+            return devuelto;
+        }
+
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAdd;
     private javax.swing.JButton jBEditar;
@@ -473,6 +572,6 @@ public class GTDay extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTabla;
     // End of variables declaration//GEN-END:variables
 }

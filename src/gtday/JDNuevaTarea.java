@@ -7,7 +7,7 @@
 package gtday;
 
 /**
- *
+ * JDialog encargado de crear una nueva tarea a partir de los datos introducidos por el usuario
  * @author Hector Valentin <hectorvda@gmail.com>
  */
 public class JDNuevaTarea extends javax.swing.JDialog {

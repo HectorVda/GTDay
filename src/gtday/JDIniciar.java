@@ -7,7 +7,7 @@
 package gtday;
 
 /**
- *
+ * JDialog encargado de la correcta inicialización del programa, gestionando la carga de datos o creación de nueva cuenta
  * @author Hector Valentin <hectorvda@gmail.com>
  */
 public class JDIniciar extends javax.swing.JDialog {
@@ -21,6 +21,10 @@ public class JDIniciar extends javax.swing.JDialog {
         initComponents();
     }
 
+    /**
+     * Se encarga de devolver la opción indicada por el usuario
+     * @return 0 cuando quiera crear un nuevo proyecto || 1 cuando quiera cargar datos anteriores
+     */
     public int getOpcion(){
         return opcion;
     }

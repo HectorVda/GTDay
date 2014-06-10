@@ -50,8 +50,8 @@ public class Tarea implements Serializable{
         return titulo;
     }
 
-    public JCalendar getFecha_Limite() {
-        return fecha_Limite;
+    public String getFecha_Limite() {
+        return ""+fecha_Limite.getDate();
     }
 
     public ArrayList<Tarea> getSubtareas() {
