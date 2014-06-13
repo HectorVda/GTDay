@@ -16,6 +16,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumnModel;
 
 /**
  * JFrame principal del proyecto
@@ -27,6 +28,7 @@ public class GTDay extends javax.swing.JFrame {
     private ArrayList<Proyecto> proyectos;
     private int index;
     private AbstractTableModel tableModel;
+    final static String[] headers = {"Título", "Fecha límite", "Subtareas", "Descripción"};
 
     /**
      * Creates new form GTDay
@@ -42,7 +44,7 @@ public class GTDay extends javax.swing.JFrame {
      */
     private void inicializar() {
         index = 0;
-        boolean cargado=true;
+        boolean cargado = true;
         JDIniciar jdi = new JDIniciar(this, true);
         jdi.setVisible(true);
         if (jdi.getOpcion() == 0) {
@@ -57,22 +59,24 @@ public class GTDay extends javax.swing.JFrame {
             }
 
         } else {
-            cargado=cargar();
+            cargado = cargar();
         }
         //Una vez cargados los datos modificamos la etiqueta del nombre de Proyecto y rellenamos el JTable
         if (cargado && !this.proyectos.isEmpty()) {
-           
+
             rellenarTabla();
         }
 
     }
+
     /**
      * Se encarga de rellenar el modelo de la Tabla indicada
      */
-    private void rellenarTabla(){
-         jLproyecto.setText(this.proyectos.get(index).getNombre());
+    private void rellenarTabla() {
+        TableColumnModel tcm;
+        jLproyecto.setText(this.proyectos.get(index).getNombre());
         jBMSEstado.setEnabled(true);
-        switch(jCBEstado.getSelectedIndex()){
+        switch (jCBEstado.getSelectedIndex()) {
             case 1:
                 tableModel = new TableModel(this.proyectos.get(index).getProximo());
                 break;
@@ -84,10 +88,14 @@ public class GTDay extends javax.swing.JFrame {
                 jBMSEstado.setEnabled(false);
                 break;
             default:
-                 tableModel = new TableModel(this.proyectos.get(index).getEspera());
+                tableModel = new TableModel(this.proyectos.get(index).getEspera());
                 break;
         }
         jTabla.setModel(tableModel);
+        tcm = jTabla.getColumnModel();
+        for (int col = 0; col < headers.length; col++) {
+            tcm.getColumn(col).setHeaderValue(headers[col]);
+        }
         jTabla.updateUI();
     }
 
@@ -127,7 +135,7 @@ public class GTDay extends javax.swing.JFrame {
     private void elegirProyecto() {
         JDElegirProyecto jdep = new JDElegirProyecto(this, true, this.proyectos);
         jdep.setVisible(true);
-        this.index=jdep.getIndice();
+        this.index = jdep.getIndice();
     }
 
     /**
@@ -242,7 +250,7 @@ public class GTDay extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Título", "Fecha límite", "Subtareas", "Descripcion"
+                "Título", "Fecha límite", "Subtareas", "Descripción"
             }
         ) {
             Class[] types = new Class [] {
@@ -435,7 +443,7 @@ public class GTDay extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jCBEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBEstadoActionPerformed
-      rellenarTabla();
+        rellenarTabla();
     }//GEN-LAST:event_jCBEstadoActionPerformed
 
     private void jMINuevoProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMINuevoProyectoActionPerformed
@@ -463,9 +471,9 @@ public class GTDay extends javax.swing.JFrame {
                     this.proyectos.get(index).addHecho(jdnt.getTarea());
                     break;
                 default:
-                     this.proyectos.get(index).addEspera(jdnt.getTarea());
+                    this.proyectos.get(index).addEspera(jdnt.getTarea());
                     break;
-                    
+
             }
         }
         rellenarTabla();
@@ -523,7 +531,7 @@ public class GTDay extends javax.swing.JFrame {
         ArrayList<Tarea> datos;
 
         public TableModel(ArrayList<Tarea> param) {
-            datos=param;
+            datos = param;
         }
 
         @Override
@@ -538,23 +546,23 @@ public class GTDay extends javax.swing.JFrame {
 
         @Override
         public Object getValueAt(int i, int i1) {
-            Object devuelto=null;
-            switch(i1){
+            Object devuelto = null;
+            switch (i1) {
                 case 0:
-                    devuelto=datos.get(i).getTitulo();
+                    devuelto = datos.get(i).getTitulo();
                     break;
                 case 1:
-                    devuelto=datos.get(i).getFecha_Limite();
+                    devuelto = datos.get(i).getFecha_Limite();
                     break;
                 case 2:
-                    if(datos.get(i).getSubtareas()==null){
-                        devuelto=false;
-                    }else{
-                        devuelto=datos.get(i).getSubtareas().size()>0;
+                    if (datos.get(i).getSubtareas() == null) {
+                        devuelto = false;
+                    } else {
+                        devuelto = datos.get(i).getSubtareas().size() > 0;
                     }
                     break;
                 case 3:
-                    devuelto=datos.get(i).getDescripcion();
+                    devuelto = datos.get(i).getDescripcion();
                     break;
             }
             return devuelto;

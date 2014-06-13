@@ -52,9 +52,19 @@ public class Tarea implements Serializable{
     }
 
     public String getFecha_Limite() {
-        return ""+fecha_Limite.get(Calendar.DAY_OF_MONTH)+" / "+(fecha_Limite.get(Calendar.MONTH)+1)+" / "+fecha_Limite.get(Calendar.YEAR);
+        return ""+fecha_Limite.get(Calendar.YEAR)+" / "+getMes()+" / "+fecha_Limite.get(Calendar.DAY_OF_MONTH);
     }
 
+    public String getMes(){
+        String f;
+        int mes=(fecha_Limite.get(Calendar.MONTH)+1);
+        if(mes<10){
+            f="0"+mes;
+        }else{
+            f=""+mes;
+        }
+        return f;
+    }
     public ArrayList<Tarea> getSubtareas() {
         return subtareas;
     }

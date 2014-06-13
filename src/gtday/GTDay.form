@@ -313,7 +313,7 @@
                           <Data value="null"/>
                           <Data value="null"/>
                         </Column>
-                        <Column editable="false" title="Descripcion" type="java.lang.String"/>
+                        <Column editable="false" title="Descripci&#xf3;n" type="java.lang.String"/>
                       </Table>
                     </Property>
                   </Properties>
