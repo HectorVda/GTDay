@@ -33,7 +33,7 @@ public class JDNuevoProyecto extends javax.swing.JDialog {
         return jTFNombre.getText();
     }
 
-    public void disableCandelar(){
+    public void disableCancelar(){
         this.jBCancelar.setEnabled(false);
     }
     /**

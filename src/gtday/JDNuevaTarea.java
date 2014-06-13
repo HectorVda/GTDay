@@ -33,7 +33,7 @@ public class JDNuevaTarea extends javax.swing.JDialog {
      * @return objeto Tarea
      */
     public Tarea getTarea(){
-        return new Tarea(jTFTitulo.getText(), jDCFecha.getJCalendar(), jTFDescripcion.getText());
+        return new Tarea(jTFTitulo.getText(), jDCFecha.getCalendar(), jTFDescripcion.getText());
     }
     
 

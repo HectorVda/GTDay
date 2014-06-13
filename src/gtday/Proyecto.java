@@ -96,6 +96,11 @@ public class Proyecto  implements Serializable{
     public void addHecho(Tarea h){
         this.hecho.add(h);
     }
+
+    @Override
+    public String toString() {
+        return ""+ nombre;
+    }
     
     
 }

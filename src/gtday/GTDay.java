@@ -42,13 +42,13 @@ public class GTDay extends javax.swing.JFrame {
      */
     private void inicializar() {
         index = 0;
-        boolean cargado=false;
+        boolean cargado=true;
         JDIniciar jdi = new JDIniciar(this, true);
         jdi.setVisible(true);
         if (jdi.getOpcion() == 0) {
             this.proyectos = new ArrayList<>();
             JDNuevoProyecto jdnp = new JDNuevoProyecto(this, true);
-            jdnp.disableCandelar();
+            jdnp.disableCancelar();
             jdnp.setVisible(true);
             if (jdnp.haPulsadoAceptar()) {
                 this.proyectos.add(new Proyecto(jdnp.getNombre()));
@@ -59,9 +59,9 @@ public class GTDay extends javax.swing.JFrame {
         } else {
             cargado=cargar();
         }
-        //Una vez cargados los datos modificamos la etiqueta del nombre de Proyecto
+        //Una vez cargados los datos modificamos la etiqueta del nombre de Proyecto y rellenamos el JTable
         if (cargado && !this.proyectos.isEmpty()) {
-            jLproyecto.setText(this.proyectos.get(index).getNombre());
+           
             rellenarTabla();
         }
 
@@ -70,11 +70,9 @@ public class GTDay extends javax.swing.JFrame {
      * Se encarga de rellenar el modelo de la Tabla indicada
      */
     private void rellenarTabla(){
+         jLproyecto.setText(this.proyectos.get(index).getNombre());
         jBMSEstado.setEnabled(true);
         switch(jCBEstado.getSelectedIndex()){
-            case 0:
-                tableModel = new TableModel(this.proyectos.get(index).getEspera());
-                break;
             case 1:
                 tableModel = new TableModel(this.proyectos.get(index).getProximo());
                 break;
@@ -84,6 +82,9 @@ public class GTDay extends javax.swing.JFrame {
             case 3:
                 tableModel = new TableModel(this.proyectos.get(index).getHecho());
                 jBMSEstado.setEnabled(false);
+                break;
+            default:
+                 tableModel = new TableModel(this.proyectos.get(index).getEspera());
                 break;
         }
         jTabla.setModel(tableModel);
@@ -124,7 +125,9 @@ public class GTDay extends javax.swing.JFrame {
      * el deseado por el usuario para trabajar en ese instante
      */
     private void elegirProyecto() {
-        
+        JDElegirProyecto jdep = new JDElegirProyecto(this, true, this.proyectos);
+        jdep.setVisible(true);
+        this.index=jdep.getIndice();
     }
 
     /**
@@ -141,7 +144,7 @@ public class GTDay extends javax.swing.JFrame {
                 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(archivo));
                 oos.writeObject(this.proyectos);
             } catch (IOException ioe) {
-                JOptionPane.showMessageDialog(this, "Error al guardar los datos", null, JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, ioe, null, JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -172,10 +175,10 @@ public class GTDay extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jCBEstado = new javax.swing.JComboBox();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        jMArchivo = new javax.swing.JMenu();
+        jMINuevoProyecto = new javax.swing.JMenuItem();
+        jMICambiarProyecto = new javax.swing.JMenuItem();
+        jMISalir = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -339,28 +342,33 @@ public class GTDay extends javax.swing.JFrame {
         });
         jPanel2.add(jCBEstado);
 
-        jMenu1.setText("Archivo");
+        jMArchivo.setText("Archivo");
 
-        jMenuItem3.setText("Nuevo Proyecto");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        jMINuevoProyecto.setText("Nuevo Proyecto");
+        jMINuevoProyecto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                jMINuevoProyectoActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem3);
+        jMArchivo.add(jMINuevoProyecto);
 
-        jMenuItem4.setText("Cambiar Proyecto");
-        jMenu1.add(jMenuItem4);
-
-        jMenuItem5.setText("Salir");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+        jMICambiarProyecto.setText("Cambiar Proyecto");
+        jMICambiarProyecto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
+                jMICambiarProyectoActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem5);
+        jMArchivo.add(jMICambiarProyecto);
 
-        jMenuBar1.add(jMenu1);
+        jMISalir.setText("Salir");
+        jMISalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMISalirActionPerformed(evt);
+            }
+        });
+        jMArchivo.add(jMISalir);
+
+        jMenuBar1.add(jMArchivo);
 
         jMenu2.setText("Cuenta");
 
@@ -430,14 +438,14 @@ public class GTDay extends javax.swing.JFrame {
       rellenarTabla();
     }//GEN-LAST:event_jCBEstadoActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void jMINuevoProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMINuevoProyectoActionPerformed
         JDNuevoProyecto jdnp = new JDNuevoProyecto(this, true);
         jdnp.setVisible(true);
         //Si ha pulsado aceptar, añade un proyecto a la lista con el nombre indicado
         if (jdnp.haPulsadoAceptar()) {
             this.proyectos.add(new Proyecto(jdnp.getNombre()));
         }
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_jMINuevoProyectoActionPerformed
 
     private void jBAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAddActionPerformed
         JDNuevaTarea jdnt = new JDNuevaTarea(this, true);
@@ -445,9 +453,6 @@ public class GTDay extends javax.swing.JFrame {
         //Si ha pulsado aceptar se añadirá la tarea creada al estado actual
         if (jdnt.haPulsadoAceptar()) {
             switch (jCBEstado.getSelectedIndex()) {
-                case 0:
-                    this.proyectos.get(index).addEspera(jdnt.getTarea());
-                    break;
                 case 1:
                     this.proyectos.get(index).addProximo(jdnt.getTarea());
                     break;
@@ -457,15 +462,24 @@ public class GTDay extends javax.swing.JFrame {
                 case 3:
                     this.proyectos.get(index).addHecho(jdnt.getTarea());
                     break;
+                default:
+                     this.proyectos.get(index).addEspera(jdnt.getTarea());
+                    break;
+                    
             }
         }
         rellenarTabla();
     }//GEN-LAST:event_jBAddActionPerformed
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+    private void jMISalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMISalirActionPerformed
         guardar();
         System.exit(0);
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
+    }//GEN-LAST:event_jMISalirActionPerformed
+
+    private void jMICambiarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMICambiarProyectoActionPerformed
+        elegirProyecto();
+        rellenarTabla();
+    }//GEN-LAST:event_jMICambiarProyectoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -557,14 +571,14 @@ public class GTDay extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLayeredPane jLayeredPane2;
     private javax.swing.JLabel jLproyecto;
-    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMArchivo;
+    private javax.swing.JMenuItem jMICambiarProyecto;
+    private javax.swing.JMenuItem jMINuevoProyecto;
+    private javax.swing.JMenuItem jMISalir;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPEspera;
     private javax.swing.JPanel jPHaciendo;
     private javax.swing.JPanel jPHecho;

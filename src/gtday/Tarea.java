@@ -6,9 +6,10 @@
 
 package gtday;
 
-import com.toedter.calendar.JCalendar;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Especificaciones de los objetos de tipo Tarea para cada proyecto.
@@ -19,17 +20,17 @@ import java.util.ArrayList;
  */
 public class Tarea implements Serializable{
     private String titulo;
-    private JCalendar fecha_Limite;
+    private Calendar fecha_Limite;
     private ArrayList<Tarea> subtareas;
     private String descripcion;
 
-    public Tarea(String titulo, JCalendar fecha_Limite, String descripcion) {
+    public Tarea(String titulo, Calendar fecha_Limite, String descripcion) {
         this.titulo = titulo;
         this.fecha_Limite = fecha_Limite;
         this.descripcion = descripcion;
     }
 
-    public Tarea(String titulo, JCalendar fecha_Limite) {
+    public Tarea(String titulo, Calendar fecha_Limite) {
         this.titulo = titulo;
         this.fecha_Limite = fecha_Limite;
     }
@@ -38,7 +39,7 @@ public class Tarea implements Serializable{
         this.titulo = titulo;
     }
 
-    public void setFecha_Limite(JCalendar fecha_Limite) {
+    public void setFecha_Limite(Calendar fecha_Limite) {
         this.fecha_Limite = fecha_Limite;
     }
 
@@ -51,7 +52,7 @@ public class Tarea implements Serializable{
     }
 
     public String getFecha_Limite() {
-        return ""+fecha_Limite.getDate();
+        return ""+fecha_Limite.get(Calendar.DAY_OF_MONTH)+" / "+(fecha_Limite.get(Calendar.MONTH)+1)+" / "+fecha_Limite.get(Calendar.YEAR);
     }
 
     public ArrayList<Tarea> getSubtareas() {
