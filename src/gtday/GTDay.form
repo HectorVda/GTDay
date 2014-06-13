@@ -150,6 +150,9 @@
           <Image iconType="3" name="/gtday/eliminar.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBEliminarActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JLayeredPane" name="jLayeredPane2">
       <Properties>
@@ -204,6 +207,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Mover tarea al siguiente estado"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBMSEstadoActionPerformed"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane1">
               <AuxValues>
