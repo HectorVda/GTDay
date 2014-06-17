@@ -3,17 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package gtday;
 
 /**
  * JDialog encargado de crear un nuevo proyecto de forma adecuada
+ *
  * @author Hector Valentin <hectorvda@gmail.com>
  */
 public class JDNuevoProyecto extends javax.swing.JDialog {
 
     /*Variable de control sobre la decisión del usuario*/
     private boolean haPulsadoAceptar;
+
     /**
      * Creates new form jDNProyecto
      */
@@ -21,21 +22,26 @@ public class JDNuevoProyecto extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
+
     /**
-     * Devuelve un booleano que indica si el usuario ha pulsado o no el boton aceptar.
-     * @return True si ha pulsado aceptar, False si ha pulsado el botón Cancelar.
+     * Devuelve un booleano que indica si el usuario ha pulsado o no el boton
+     * aceptar.
+     *
+     * @return True si ha pulsado aceptar, False si ha pulsado el botón
+     * Cancelar.
      */
-    public boolean haPulsadoAceptar(){
+    public boolean haPulsadoAceptar() {
         return this.haPulsadoAceptar;
     }
-    
-    public String getNombre(){
+
+    public String getNombre() {
         return jTFNombre.getText();
     }
 
-    public void disableCancelar(){
+    public void disableCancelar() {
         this.jBCancelar.setEnabled(false);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -103,12 +109,12 @@ public class JDNuevoProyecto extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCancelarActionPerformed
-        this.haPulsadoAceptar=false;
+        this.haPulsadoAceptar = false;
         this.setVisible(false);
     }//GEN-LAST:event_jBCancelarActionPerformed
 
     private void jBAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAceptarActionPerformed
-        this.haPulsadoAceptar=true;
+        this.haPulsadoAceptar = true;
         this.setVisible(false);
     }//GEN-LAST:event_jBAceptarActionPerformed
 

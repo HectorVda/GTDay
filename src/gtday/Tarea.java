@@ -54,6 +54,9 @@ public class Tarea implements Serializable{
     public String getFecha_Limite() {
         return ""+fecha_Limite.get(Calendar.YEAR)+" / "+getMes()+" / "+fecha_Limite.get(Calendar.DAY_OF_MONTH);
     }
+    public Calendar getCalendar(){
+        return this.fecha_Limite;
+    }
 
     public String getMes(){
         String f;

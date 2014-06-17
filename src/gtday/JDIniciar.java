@@ -3,14 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package gtday;
 
 /**
- * JDialog encargado de la correcta inicialización del programa, gestionando la carga de datos o creación de nueva cuenta
+ * JDialog encargado de la correcta inicialización del programa, gestionando la
+ * carga de datos o creación de nueva cuenta
+ *
  * @author Hector Valentin <hectorvda@gmail.com>
  */
 public class JDIniciar extends javax.swing.JDialog {
+
     int opcion;
 
     /**
@@ -23,11 +25,14 @@ public class JDIniciar extends javax.swing.JDialog {
 
     /**
      * Se encarga de devolver la opción indicada por el usuario
-     * @return 0 cuando quiera crear un nuevo proyecto || 1 cuando quiera cargar datos anteriores
+     *
+     * @return 0 cuando quiera crear un nuevo proyecto || 1 cuando quiera cargar
+     * datos anteriores
      */
-    public int getOpcion(){
+    public int getOpcion() {
         return opcion;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -148,12 +153,12 @@ public class JDIniciar extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBCProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCProyectoActionPerformed
-        this.opcion=0;
+        this.opcion = 0;
         this.setVisible(false);
     }//GEN-LAST:event_jBCProyectoActionPerformed
 
     private void jBCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCargarActionPerformed
-        this.opcion=1;
+        this.opcion = 1;
         this.setVisible(false);
     }//GEN-LAST:event_jBCargarActionPerformed
 

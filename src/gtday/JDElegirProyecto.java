@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package gtday;
 
 import java.util.ArrayList;
@@ -11,31 +10,41 @@ import javax.swing.AbstractListModel;
 import javax.swing.ListModel;
 
 /**
- * Esta clase se encarga de mostrar una lista con todos los proyectos incluidos en el archivo que se desea cargar
+ * Esta clase se encarga de mostrar una lista con todos los proyectos incluidos
+ * en el archivo que se desea cargar
+ *
  * @author Hector Valentin <hectorvda@gmail.com>
  */
 public class JDElegirProyecto extends javax.swing.JDialog {
 
-     private ListModel jList;
-     private static ArrayList<Proyecto> proyectos;
+    private ListModel jList;
+    private static ArrayList<Proyecto> proyectos;
+
     /**
      * Constructor principal
-     * @param parent 
+     *
+     * @param parent
      * @param modal
      * @param p ArrayList con los proyectos que el usuario ha cargado.
      */
     public JDElegirProyecto(java.awt.Frame parent, boolean modal, ArrayList<Proyecto> p) {
         super(parent, modal);
         initComponents();
-        proyectos=p;
-        jList  = new listaModel();
+        proyectos = p;
+        jList = new listaModel();
         jLista.setModel(jList);
-        
+
     }
 
-    public int getIndice(){
-        return jLista.getSelectedIndex();
+    public int getIndice() {
+        int indice = jLista.getSelectedIndex();
+        /*En caso de que el indice debuelto por .getSelectecIndex no sea correcto se devuelve el primer indice del array*/
+        if (indice < 0) {
+            indice = 0;
+        }
+        return indice;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -94,7 +103,7 @@ public class JDElegirProyecto extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       this.setVisible(false);
+        this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -138,10 +147,8 @@ public class JDElegirProyecto extends javax.swing.JDialog {
             }
         });
     }
-    
-     class listaModel extends AbstractListModel {
 
-        
+    class listaModel extends AbstractListModel {
 
         @Override
         public int getSize() {

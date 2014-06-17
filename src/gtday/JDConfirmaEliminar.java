@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package gtday;
 
 /**
@@ -13,6 +12,7 @@ package gtday;
 public class JDConfirmaEliminar extends javax.swing.JDialog {
 
     private boolean haPulsadoAceptar;
+
     /**
      * Creates new form JDConfirmaEliminar
      */
@@ -21,9 +21,10 @@ public class JDConfirmaEliminar extends javax.swing.JDialog {
         initComponents();
     }
 
-    public boolean haPulsadoAceptar(){
+    public boolean haPulsadoAceptar() {
         return this.haPulsadoAceptar;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -88,12 +89,12 @@ public class JDConfirmaEliminar extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSiActionPerformed
-        this.haPulsadoAceptar=true;
+        this.haPulsadoAceptar = true;
         this.setVisible(false);
     }//GEN-LAST:event_jBSiActionPerformed
 
     private void jBNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNoActionPerformed
-        this.haPulsadoAceptar=false;
+        this.haPulsadoAceptar = false;
         this.setVisible(false);
     }//GEN-LAST:event_jBNoActionPerformed
 

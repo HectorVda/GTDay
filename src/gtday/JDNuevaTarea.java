@@ -3,16 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package gtday;
 
 /**
- * JDialog encargado de crear una nueva tarea a partir de los datos introducidos por el usuario
+ * JDialog encargado de crear una nueva tarea a partir de los datos introducidos
+ * por el usuario
+ *
  * @author Hector Valentin <hectorvda@gmail.com>
  */
 public class JDNuevaTarea extends javax.swing.JDialog {
 
     private boolean haPulsadoAceptar;
+
     /**
      * Creates new form JDNuevaTarea
      */
@@ -20,22 +22,27 @@ public class JDNuevaTarea extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
-    
-     /**
-     * Devuelve un booleano que indica si el usuario ha pulsado o no el boton aceptar.
-     * @return True si ha pulsado aceptar, False si ha pulsado el botón Cancelar.
+
+    /**
+     * Devuelve un booleano que indica si el usuario ha pulsado o no el boton
+     * aceptar.
+     *
+     * @return True si ha pulsado aceptar, False si ha pulsado el botón
+     * Cancelar.
      */
-    public boolean haPulsadoAceptar(){
+    public boolean haPulsadoAceptar() {
         return this.haPulsadoAceptar;
     }
+
     /**
-     * Crea un objeto de tipo Tarea a partir de los datos introducidos por el usuario
+     * Crea un objeto de tipo Tarea a partir de los datos introducidos por el
+     * usuario
+     *
      * @return objeto Tarea
      */
-    public Tarea getTarea(){
+    public Tarea getTarea() {
         return new Tarea(jTFTitulo.getText(), jDCFecha.getCalendar(), jTFDescripcion.getText());
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -129,12 +136,12 @@ public class JDNuevaTarea extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAceptarActionPerformed
-        this.haPulsadoAceptar=true;
+        this.haPulsadoAceptar = true;
         this.setVisible(false);
     }//GEN-LAST:event_jBAceptarActionPerformed
 
     private void jBCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCancelarActionPerformed
-        this.haPulsadoAceptar=false;
+        this.haPulsadoAceptar = false;
         this.setVisible(false);
     }//GEN-LAST:event_jBCancelarActionPerformed
 

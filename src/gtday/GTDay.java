@@ -159,62 +159,66 @@ public class GTDay extends javax.swing.JFrame {
 
     /**
      * Se encarga de eliminar la tarea seleccionada de la lista actual
+     *
      * @param indice número de columna seleccionada del JTable
      */
-    private void eliminarTarea(String titulo){
-       int indice;
-        switch(jCBEstado.getSelectedIndex()){
+    private void eliminarTarea(String titulo) {
+        int indice;
+        switch (jCBEstado.getSelectedIndex()) {
             case 1:
-                indice=buscarTarea(this.proyectos.get(index).getProximo(), titulo);
-                if(indice!=-1){
+                indice = buscarTarea(this.proyectos.get(index).getProximo(), titulo);
+                if (indice != -1) {
                     this.proyectos.get(index).getProximo().remove(indice);
                 }
                 break;
             case 2:
-                indice=buscarTarea(this.proyectos.get(index).getHaciendo(), titulo);
-                if(indice!=-1){
+                indice = buscarTarea(this.proyectos.get(index).getHaciendo(), titulo);
+                if (indice != -1) {
                     this.proyectos.get(index).getHaciendo().remove(indice);
                 }
                 break;
             case 3:
-                indice=buscarTarea(this.proyectos.get(index).getHecho(), titulo);
-                if(indice!=-1){
+                indice = buscarTarea(this.proyectos.get(index).getHecho(), titulo);
+                if (indice != -1) {
                     this.proyectos.get(index).getHecho().remove(indice);
                 }
                 break;
             default:
-                indice=buscarTarea(this.proyectos.get(index).getEspera(), titulo);
-                if(indice!=-1){
+                indice = buscarTarea(this.proyectos.get(index).getEspera(), titulo);
+                if (indice != -1) {
                     this.proyectos.get(index).getEspera().remove(indice);
                 }
                 break;
         }
         jTabla.updateUI();
     }
+
     /**
-     * Se encarga de mover la tarea seleccionada en el JTable al siguiente estado.
+     * Se encarga de mover la tarea seleccionada en el JTable al siguiente
+     * estado.
+     *
      * @param titulo título de la tarea seleccionada en el JTable
      */
-    private void moverTarea(String titulo){
+    private void moverTarea(String titulo) {
         int indice;
-        switch(jCBEstado.getSelectedIndex()){
+        switch (jCBEstado.getSelectedIndex()) {
             case 1:
-                indice=buscarTarea(this.proyectos.get(index).getProximo(), titulo);
-                if(indice!=-1){
+                indice = buscarTarea(this.proyectos.get(index).getProximo(), titulo);
+                if (indice != -1) {
                     this.proyectos.get(index).getHaciendo().add(this.proyectos.get(index).getProximo().get(indice));
                     this.proyectos.get(index).getProximo().remove(indice);
                 }
                 break;
             case 2:
-                indice=buscarTarea(this.proyectos.get(index).getHaciendo(), titulo);
-                if(indice!=-1){
+                indice = buscarTarea(this.proyectos.get(index).getHaciendo(), titulo);
+                if (indice != -1) {
                     this.proyectos.get(index).getHecho().add(this.proyectos.get(index).getHaciendo().get(indice));
                     this.proyectos.get(index).getHaciendo().remove(indice);
                 }
                 break;
             default:
-                indice=buscarTarea(this.proyectos.get(index).getEspera(), titulo);
-                if(indice!=-1){
+                indice = buscarTarea(this.proyectos.get(index).getEspera(), titulo);
+                if (indice != -1) {
                     this.proyectos.get(index).getProximo().add(this.proyectos.get(index).getEspera().get(indice));
                     this.proyectos.get(index).getEspera().remove(indice);
                 }
@@ -222,21 +226,61 @@ public class GTDay extends javax.swing.JFrame {
         }
         jTabla.updateUI();
     }
+
     /**
      * Se encarga de buscar una tarea en un ArrayList de tareas
+     *
      * @param tareas ArrayList con las tareas donde se quiere buscar
      * @param titulo Título de la tarea a buscar
-     * @return 
+     * @return
      */
-    private int buscarTarea(ArrayList<Tarea> tareas, String titulo){
-        int indice=-1;
-        for(int i =0; i<tareas.size(); i++){
-            if(tareas.get(i).getTitulo().equalsIgnoreCase(titulo)){
-                indice=i;
+    private int buscarTarea(ArrayList<Tarea> tareas, String titulo) {
+        int indice = -1;
+        for (int i = 0; i < tareas.size(); i++) {
+            if (tareas.get(i).getTitulo().equalsIgnoreCase(titulo)) {
+                indice = i;
             }
         }
         return indice;
     }
+
+    private void modificarTarea(String titulo) {
+        int indice;
+        Tarea t = null;
+        switch (jCBEstado.getSelectedIndex()) {
+            case 1:
+                indice = buscarTarea(this.proyectos.get(index).getProximo(), titulo);
+                if (indice != -1) {
+                    t = this.proyectos.get(index).getProximo().get(indice);
+                    
+                }
+                break;
+            case 2:
+                indice = buscarTarea(this.proyectos.get(index).getHaciendo(), titulo);
+                if (indice != -1) {
+                    t = this.proyectos.get(index).getHaciendo().get(indice);
+                }
+                break;
+            case 3:
+                indice = buscarTarea(this.proyectos.get(index).getHecho(), titulo);
+                if (indice != -1) {
+                    t = this.proyectos.get(index).getHecho().get(indice);
+                }
+                break;
+            default:
+                indice = buscarTarea(this.proyectos.get(index).getEspera(), titulo);
+                if (indice != -1) {
+                    t = this.proyectos.get(index).getEspera().get(indice);
+                }
+                break;
+        }
+        if (t != null) {
+            JDEditar jde = new JDEditar(this, true, t);
+            jde.setVisible(true);
+        }
+        jTabla.updateUI();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -267,9 +311,6 @@ public class GTDay extends javax.swing.JFrame {
         jMINuevoProyecto = new javax.swing.JMenuItem();
         jMICambiarProyecto = new javax.swing.JMenuItem();
         jMISalir = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GTDay");
@@ -468,21 +509,6 @@ public class GTDay extends javax.swing.JFrame {
 
         jMenuBar1.add(jMArchivo);
 
-        jMenu2.setText("Cuenta");
-
-        jMenuItem1.setText("Crear Cuenta");
-        jMenu2.add(jMenuItem1);
-
-        jMenuItem2.setText("Cambiar Cuenta");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuItem2);
-
-        jMenuBar1.add(jMenu2);
-
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -525,12 +551,13 @@ public class GTDay extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEditarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jBEditarActionPerformed
+        if (jTabla.getSelectedRow() >= 0) {
+            modificarTarea((String) jTabla.getValueAt(jTabla.getSelectedRow(), 0));
+        } else {
+            JOptionPane.showMessageDialog(this, "Para poder editar una tarea primero debe seleccionar una", null, JOptionPane.INFORMATION_MESSAGE);
+        }
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_jBEditarActionPerformed
 
     private void jCBEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBEstadoActionPerformed
         rellenarTabla();
@@ -542,6 +569,8 @@ public class GTDay extends javax.swing.JFrame {
         //Si ha pulsado aceptar, añade un proyecto a la lista con el nombre indicado
         if (jdnp.haPulsadoAceptar()) {
             this.proyectos.add(new Proyecto(jdnp.getNombre()));
+            this.index = this.proyectos.size() - 1;
+            rellenarTabla();
         }
     }//GEN-LAST:event_jMINuevoProyectoActionPerformed
 
@@ -580,17 +609,22 @@ public class GTDay extends javax.swing.JFrame {
     }//GEN-LAST:event_jMICambiarProyectoActionPerformed
 
     private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
-        JDConfirmaEliminar jdce = new JDConfirmaEliminar(this, true);
-        jdce.setVisible(true);
-        if(jdce.haPulsadoAceptar()){
-            eliminarTarea((String)jTabla.getValueAt(jTabla.getSelectedRow(), 0));
-              rellenarTabla();
+        if (jTabla.getSelectedRow() >= 0) {
+            JDConfirmaEliminar jdce = new JDConfirmaEliminar(this, true);
+            jdce.setVisible(true);
+            if (jdce.haPulsadoAceptar()) {
+                eliminarTarea((String) jTabla.getValueAt(jTabla.getSelectedRow(), 0));
+                rellenarTabla();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor seleccione una tarea para poder eliminarla", null, JOptionPane.INFORMATION_MESSAGE);
         }
-        
+
+
     }//GEN-LAST:event_jBEliminarActionPerformed
 
     private void jBMSEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBMSEstadoActionPerformed
-        moverTarea((String)jTabla.getValueAt(jTabla.getSelectedRow(), 0));
+        moverTarea((String) jTabla.getValueAt(jTabla.getSelectedRow(), 0));
     }//GEN-LAST:event_jBMSEstadoActionPerformed
 
     /**
@@ -630,10 +664,19 @@ public class GTDay extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Inner class (clase interna) que contiene lo necesario para montar el
+     * modelo de datos del JTable
+     */
     class TableModel extends AbstractTableModel {
 
         ArrayList<Tarea> datos;
 
+        /**
+         * Constructor principal de la Inner class
+         *
+         * @param param lista de datos de tipo tarea a cargar
+         */
         public TableModel(ArrayList<Tarea> param) {
             datos = param;
         }
@@ -687,10 +730,7 @@ public class GTDay extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMICambiarProyecto;
     private javax.swing.JMenuItem jMINuevoProyecto;
     private javax.swing.JMenuItem jMISalir;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPEspera;
     private javax.swing.JPanel jPHaciendo;
     private javax.swing.JPanel jPHecho;
